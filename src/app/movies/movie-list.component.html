@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="header-sub">
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-12 text-center">
+        <h1>Movies</h1>
+      </div> <!-- col ends -->
+
+    </div> <!-- row ends -->
+
+  </div> <!-- container ends -->
+</div> <!-- header ends -->
+
+<div class="content-all">
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-8 col-sm-6 col-xs-4">
+        <button type="button" class="btn btn-success" routerLink="/movie">Create New</button>
+      </div> <!-- col ends -->
+
+      <div class="col-md-4 col-sm-6 col-xs-8 text-right">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" [(ngModel)]="search">
+        </div>
+      </div> <!-- col ends -->
+
+    </div> <!-- row ends -->
+
+    <div class="row">
+
+      <!-- for each movie in our movies array of obejcts get title, director, year, genre -->
+      <div class="col-sm-6 col-md-4" *ngFor="let movie of movies | searchMovie: search">
+
+        <div *ngIf="movie === -1" class="alert alert-danger">
+          "No matches, search again"
+        </div>
+
+        <div class="thumbnail">
+
+          <div *ngIf="movie !== -1" class="caption" >
+            <h3>{{movie.title | uppercase }} </h3>
+            <p>
+              <strong>Director</strong> {{movie.director}}<br>
+              <strong>Year</strong> {{movie.year}}<br>
+              <strong>Genre</strong> <span class="genre-background "> {{movie.genre}}</span> <br>
+            </p>
+            <a routerLink="/movie/{{movie._id}}" class="btn btn-primary">Edit</a>
+          </div>
+
+        </div> <!-- thumbnail ends -->
+      </div> <!-- col ends -->
+
+    </div> <!-- row ends -->
+
+  </div> <!-- container ends -->
+</div> <!-- content-all ends -->

@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+.margin-top
+{
+  margin-top:20px;
+}
+
+.content-all
+{
+  padding: 40px 0 30px;
+}
+
+.header-parent
+{
+  background-color: #263238 ;
+  padding: 100px 0 100px;
+  color: #FFFFFF;
+}
+
+.header-sub
+{
+  background-color: #263238 ;
+  padding: 40px 0 40px;
+  color: #FFFFFF;
+}
+
+
+.navbar
+{
+  margin-bottom: 0px;
+  border-radius: 0px;
+  padding: 12px;
+}

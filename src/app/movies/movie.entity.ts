@@ -1,3 +1,8 @@
-/**
- * Created by Jonas on 01-12-2016.
- */
+export class Movie
+{
+  _id: string;
+  title: string;
+  year: string;
+  director: string;
+  genre: string;
+}

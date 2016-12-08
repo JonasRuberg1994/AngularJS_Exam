@@ -1,10 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="header-sub">
+  <div class="container">
+
+    <div class="row">
+
+      <div class="col-md-12 text-center">
+        <h1>Movie</h1>
+      </div> <!-- col ends -->
+
+    </div> <!-- row ends -->
+
+  </div> <!-- container ends -->
+</div> <!-- header ends -->
+
+<div class="content-all">
+  <div class="container">
+
+    <div class="row">
+
+      <!-- onSubmit will trigger the button of type submit -->
+      <!-- we have a model for the form inside - directive binding of formgroup, setting that equal to form -->
+      <form class="" (ngSubmit)="onSubmit()" #movieForm="ngForm">
+
+        <!-- Title -->
+        <div class="col-md-6">
+          <div class="form-group">
+
+            <!-- ngModel - access properties and also checks for events at the same time -->
+            <!-- label and textbox -->
+            <label for="title">Title</label>
+            <input type="text" class="form-control"
+                   name="title"
+                   id="title"
+                   placeholder="Title"
+                   required
+                   #title="ngModel"
+                   [(ngModel)]="selectedMovie.title"
+            >
+
+            <!-- validation -->
+            <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger">
+              <div [hidden]="!title.errors.required">
+                Title is required
+              </div>
+            </div>
+
+
+          </div> <!-- form group ends -->
+        </div> <!-- col ends -->
+
+        <!-- Year -->
+        <div class="col-md-6">
+
+          <div class="form-group">
+
+            <!-- label and textbox -->
+            <label for="year">Year</label>
+            <input type="text" class="form-control"
+                   name="year"
+                   id="year"
+                   placeholder="Year"
+                   minlength="4"
+                   maxlength="4"
+                   required
+                   #year="ngModel"
+                   [(ngModel)]="selectedMovie.year"
+            >
+
+            <!-- validation -->
+            <div *ngIf="year.errors && (year.dirty || year.touched)" class="alert alert-danger">
+              <div [hidden]="!year.errors.required">
+                Year must contain 4 characters
+              </div>
+            </div>
+          </div> <!-- form group ends -->
+
+        </div> <!-- col ends -->
+
+        <!-- Director -->
+        <div class="col-md-6">
+
+          <div class="form-group">
+
+            <!-- label and textbox -->
+            <label for="director">Director</label>
+            <input type="text" class="form-control"
+                   name="director"
+                   id="director"
+                   placeholder="Director"
+                   required
+                   #director="ngModel"
+                   [(ngModel)]="selectedMovie.director"
+            >
+
+            <!-- validation -->
+            <div *ngIf="director.errors && (director.dirty || director.touched)" class="alert alert-danger">
+              <div [hidden]="!director.errors.required">
+                Director is required
+              </div>
+            </div>
+
+          </div> <!-- form group ends -->
+        </div> <!-- col ends -->
+
+        <!-- Genre -->
+        <div class="col-md-6">
+
+          <!-- label and selectlist -->
+          <div class="form-group">
+            <label for="genre">Genre</label>
+            <select class="form-control"
+                    name="genre"
+                    id="genre"
+                    placeholder="Genre"
+                    required
+                    #genre="ngModel"
+                    [(ngModel)]="selectedMovie.genre"
+            >
+              <option value="Action">Action</option>
+              <option value="Science Fiction">Science Fiction</option>
+              <option value="Horror">Horror</option>
+              <option value="Drama">Drama</option>
+            </select>
+
+            <!-- validation -->
+            <div *ngIf="genre.errors && (genre.dirty || genre.touched)" class="alert alert-danger">
+              <div [hidden]="!genre.errors.required">
+                U must pick a genre from the list
+              </div>
+            </div>
+
+          </div> <!-- form group ends -->
+        </div> <!-- col ends -->
+
+        <!-- Buttons -->
+        <div class="col-md-12">
+          <button type="button" class="btn btn-secondary" routerLink="/movies">Back</button>
+          <button type="submit" class="btn btn-primary" [disabled]="!movieForm.form.valid">Save movie</button>
+          <button type="button" class="btn btn-danger" (click)="deleteMovie()">Delete movie</button>
+        </div> <!-- col ends -->
+
+      </form> <!-- form ends -->
+
+
+    </div> <!-- row ends -->
+
+  </div> <!-- container ends -->
+</div> <!-- content-all ends -->
