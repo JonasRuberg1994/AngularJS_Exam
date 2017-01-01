@@ -9,4 +9,5 @@ if (environment.production) {
   enableProdMode();
 }
 
+//launch with the app module factory
 platformBrowserDynamic().bootstrapModule(AppModule);
