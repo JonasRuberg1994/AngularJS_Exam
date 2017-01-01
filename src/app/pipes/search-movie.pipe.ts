@@ -5,34 +5,32 @@ import {Movie} from "../movies/movie.entity";
   name: 'searchMovie'
 })
 
+//I want to be able to inject this service into other components.
 @Injectable()
 export class SearchMovie implements PipeTransform
 {
-  //pass in the movie array
+  // transform - accepts an input value followed by optional parameters and returns the transformed value
   transform(items: Movie[], args: string): any
   {
     //if there is any movies in the movie array then convert
     if (args && items.length > 0)
     {
-      //converting into lower case -  store it in a variable called itemsfound
+      //store each item in a variable called itemsfound
       let itemsFound = items.filter(
-
-        //converting title year - director - genre
+        //converting the data we are searching with the data in the object
         item => item.title.toLowerCase().includes(args.toLowerCase()) ||
           item.year.toLowerCase().includes(args.toLowerCase()) ||
           item.director.toLowerCase().includes(args.toLowerCase()) ||
           item.genre.toLowerCase().includes(args.toLowerCase())
       );
-      console.log(itemsFound);
 
-      //if there is a item found then return it and it´s not empty
+      //if there is any movies then return the items that is found
       if (itemsFound && itemsFound.length > 0)
       {
         return itemsFound;
       }
-      console.log(itemsFound);
-      console.log('returning -1');
-      //display error message in movie-list view
+
+      //no matches on search - show error message in the movie-list view
       return[-1];
     }
 

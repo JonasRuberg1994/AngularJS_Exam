@@ -1,10 +1,13 @@
+//defines the application´s root module, we identify the external modules we´ll use in our application and
+//declare the components to this module
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; //forms module gives access to template driven
 import { HttpModule } from '@angular/http';
 
 //routing
-import { routing } from "./app-routing.module";
+import { AppRoutingModule } from "./app-routing.module";
 
 //services
 import { MovieService } from './movies/movie.service';
@@ -19,6 +22,7 @@ import { AboutComponent } from './about/about.component';
 import { MovieListComponent} from './movies/movie-list.component';
 import { MovieFormComponent } from './movies/movie-form.component';
 
+//NgModule - this array contains the list of external modules used by our application
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +37,7 @@ import { MovieFormComponent } from './movies/movie-form.component';
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    routing
+    AppRoutingModule
   ],
   providers: [
     MovieService

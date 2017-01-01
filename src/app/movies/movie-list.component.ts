@@ -9,16 +9,22 @@ import { MovieService } from "./movie.service";
 })
 
 export class MovieListComponent implements OnInit{
-  private movies: Movie[]; //takes in an array of objects
-  private message: string; // show error message if there is any
+  private movies: Movie[]; // property - movies is an array of movies
+  private message: string; // property - message of type string
 
-  constructor(private movieService: MovieService){}
+  // constructor with injected service - calls that service to fetch and save data
+  constructor(
+    private movieService: MovieService
+  ){}
 
+  // calling the movieservice to get the movies inside lifecycle hook
   ngOnInit()
   {
-    this.movieService.getAllMovies().subscribe(
-      movie => this.movies = movie,
-      err => this.message = err
+    // return observable of movie data - to listen for events in this stream subscribe to the observable
+    this.movieService.getAllMovies()
+      .subscribe( //subscribe - specify a success event(moviedata) or a fail event(error)
+        movie => this.movies = movie, //succesfull part - return the movies
+        err => this.message = err //failure part - errors if there is any
     )
   }
 }

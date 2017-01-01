@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Movie} from "./movie.entity";
 import {Params, ActivatedRoute, Router} from "@angular/router";
+import {Movie} from "./movie.entity";
 import {MovieService} from "./movie.service";
 
 @Component({
@@ -9,14 +9,20 @@ import {MovieService} from "./movie.service";
   styleUrls: ['./movie-form.component.css']
 })
 export class MovieFormComponent implements OnInit{
-  private selectedMovie: Movie;
-  private errormessage: string;
+  private selectedMovie: Movie; //property - store the selectedmovies on an instance of the movie class - copy
+  private errormessage: string; //property - shows errormessage if there is any
 
-  constructor(private route: ActivatedRoute, private movieService: MovieService, private router: Router){}
+  // constructor with injected services
+  constructor(
+    private activatedRoute: ActivatedRoute, //retrieve the parameters for the route, pull the movie id from the parameters and retrieve the movie to display.
+    private movieService: MovieService, //to fetch and save data
+    private router: Router //for navigation
+  ){}
 
   ngOnInit():void
   {
-    this.route.params.forEach((params: Params) => {
+    //params observable - to extract the id parameter value from the activatedroute service and use the movieservice to fetch the movie with that id
+    this.activatedRoute.params.forEach((params: Params) => {
       let id = params['id'];
       this.selectedMovie = Object.assign({}, this.movieService.getMovie(id))
     });
@@ -24,26 +30,33 @@ export class MovieFormComponent implements OnInit{
 
   deleteMovie(): void
   {
-    this.movieService.deleteMovie(this.selectedMovie._id).subscribe(
-      (movie) => this.router.navigate(['/movies']),
-      error => this.errormessage = <any> error);
+    //DELETE
+    // return observable of movie data - to listen for events in this stream subscribe to the observable
+    this.movieService.deleteMovie(this.selectedMovie._id)
+      .subscribe( //subscribe - specify a success event(moviedata) or a fail event(error)
+        () => this.router.navigate(['/movies']), //success event - navigate to movies
+        error => this.errormessage = <any> error); //error event - errors if there is any
   }
 
   onSubmit():void
   {
-    //Edit
+    //EDIT
     if(this.selectedMovie._id)
     {
-      this.movieService.updateMovie(this.selectedMovie).subscribe(
-        () => this.router.navigate(['/movies']),
-        error => this.errormessage = <any> error);
+      // return observable of movie data - to listen for events in this stream subscribe to the observable
+      this.movieService.updateMovie(this.selectedMovie)
+        .subscribe( //subscribe - specify a success event(moviedata) or a fail event(error)
+          () => this.router.navigate(['/movies']), //success event - navigate to movies
+          error => this.errormessage = <any> error); //error event - errors if there is any
     }
-    //Create
+    //CREATE
     else
     {
-      this.movieService.createMovie(this.selectedMovie).subscribe(
-        () => this.router.navigate(['/movies']),
-        error => this.errormessage = <any> error);
+      // return observable of movie data - to listen for events in this stream subscribe to the observable
+      this.movieService.createMovie(this.selectedMovie)
+        .subscribe( //subscribe - specify a success event(moviedata) or a fail event(error)
+          () => this.router.navigate(['/movies']), //success event - navigate to movies
+          error => this.errormessage = <any> error); //error event - errors if there is any
     }
   }
 

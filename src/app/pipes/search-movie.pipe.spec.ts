@@ -1,12 +1,11 @@
 import { TestBed, async } from '@angular/core/testing';
-import { Movie } from '../movies/movie.entity';
 import { SearchMovie } from "./search-movie.pipe";
 
 
 describe('App: Movies', () => {
   beforeEach(() =>
   {
-    //ARRANGE - Filling in some static data
+    //Filling in some static data
     this.movies =
       [
         {_id: '1', title:'Bond', year:'2005', director:'Per', genre:'Action'},
@@ -14,9 +13,10 @@ describe('App: Movies', () => {
         {_id: '3', title:'Up', year:'2010', director:'Helle', genre:'Horror'},
         {_id: '4', title:'Potter', year:'2016', director:'Berit', genre:'Science Fiction'}
       ];
+
     TestBed.configureTestingModule({
       declarations: [
-        SearchMovie
+        SearchMovie //declare the test pipe
       ],
     });
   });
@@ -28,6 +28,8 @@ describe('App: Movies', () => {
 
     it('No search string returns input', () => {
 
+      // transform - accepts an input value followed by optional parameters and returns the transformed value
+
       //ACT - performing the test
       let result = pipe.transform(this.movies, '');
 
@@ -37,7 +39,7 @@ describe('App: Movies', () => {
 
     it('Empty array returns empty array', () => {
       let result = pipe.transform([], 'Hi'); //empty array
-      expect(result.length).toBe(0);
+      expect(result.length).toBe(0); //length should be at least 1
     });
 
     // SEARCH BY TITLE

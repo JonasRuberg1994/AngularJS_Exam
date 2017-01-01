@@ -23,7 +23,8 @@
 
       <div class="col-md-4 col-sm-6 col-xs-8 text-right">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" [(ngModel)]="search">
+          <!-- [ngModel] 2-way-data-binding -->
+          <input type="text" class="form-control" placeholder="Search" [(ngModel)]="search" name="search">
         </div>
       </div> <!-- col ends -->
 
@@ -31,15 +32,17 @@
 
     <div class="row">
 
-      <!-- for each movie in our movies array of obejcts get title, director, year, genre -->
+      <!-- for each movie in our array of movies -->
       <div class="col-sm-6 col-md-4" *ngFor="let movie of movies | searchMovie: search">
 
+        <!-- if there is no match on search throw this error -->
         <div *ngIf="movie === -1" class="alert alert-danger">
           "No matches, search again"
         </div>
 
         <div class="thumbnail">
 
+          <!-- if there is a match on the search -->
           <div *ngIf="movie !== -1" class="caption" >
             <h3>{{movie.title | uppercase }} </h3>
             <p>

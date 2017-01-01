@@ -1,77 +1,83 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import {Http, Response, Headers, RequestOptions, Request} from '@angular/http';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map'; //operator
+import 'rxjs/add/operator/toPromise'; //operator
+import 'rxjs/add/operator/catch'; //operator
 
 import {Movie} from "./movie.entity";
 
-@Injectable() //so we can use it all over the place
+//I want to be able to inject this service into other components.
+@Injectable()
 export class MovieService {
-  private movies: Movie[];
-  private url: string = "http://localhost:3000/movies";
+  private movies: Movie[]; // property - the array of movies
+  private url: string = "http://localhost:3000/movies"; // property - URL to web API
 
+  //http client injected into the component (movieservice)
   constructor(private http: Http) {}
 
-  //GET ALL MOVIES
-  public getAllMovies(): Observable<Movie[]> {
-    return this.http.get(this.url)
-      .map((res: Response) => {
-        let data = res.json();
-        this.movies = data;
-        return data || {};
+  //GET ALL MOVIES - GET REQUEST
+  public getAllMovies(): Observable<Movie[]> { //returns an observable of the movie array
+    return this.http.get(this.url) //using the get request to get movies
+      .map((res: Response) => { //map the http.get response object to movies - The response data are in json string form.
+        let data = res.json(); //parse it into JSON objects
+        this.movies = data; //set array of movies to data
+        return data || {}; //returning the data
       })
-      .catch(this.handleError);
+      .catch(this.handleError); //throws an error of any type if there is any
   }
 
-  // Clones the found internship obj.
+  // GET MOVIE BY ID
   public getMovie(id: string): Movie {
-    let movie = this.movies.find(movie => movie._id === id);
+    let movie = this.movies.find(movie => movie._id === id); //find movie object where id matches id in the method
     if (movie) {
-      return this.copyMovieObject(movie);
+      return this.copyMovieObject(movie); //returning a movie object
     }
-    return <Movie>{}; // returnng "empty" internship obj.
+    return <Movie>{}; //returnng "empty" movie object
   }
 
-  //ADD MOVIE
+  //CREATE MOVIE - POST REQUEST (CREATE)
   public createMovie(movie): Observable<Movie>  {
-    let options = this.getOptionsObj();
+    let headers = new Headers({ 'Content-Type': 'application/json' }); // set content type to JSON
+    let options = new RequestOptions({ headers: headers }); // create a request option
 
-    return this.http.post(this.url, movie, options)
-      .map((res: Response) => {
-        let createdMovie = res.json();
-        this.movies.push(createdMovie);
+    return this.http.post(this.url, movie, options) //using the post request to create movie
+      .map((res: Response) => { //map the http.get response object to movies - The response data are in json string form.
+        let createdMovie = res.json(); //parse it into JSON objects
+        this.movies.push(createdMovie); //adds the new object into the array
       })
-      .catch(this.handleError);
+      .catch(this.handleError); //throws an error of any type if there is any
   }
 
-  //UPDATE MOVIE
+  //UPDATE MOVIE - PUT REQUEST (UPDATE)
   public updateMovie(movie): Observable<string> {
-    let options = this.getOptionsObj();
+    let headers = new Headers({ 'Content-Type': 'application/json' }); // set content type to JSON
+    let options = new RequestOptions({ headers: headers }); // create a request option
 
-    return this.http.put(this.url + "/" + movie._id, movie, options)
-      .map((res: Response) => {
-        let index = this.find(movie._id);
-        this.movies[index] = movie;
+    return this.http.put(this.url + "/" + movie._id, movie, options) //using the put request
+      .map((res: Response) => { //map the http.put response object to movies - The response data are in json string form.
+        let index = this.find(movie._id); //call the method find and find the movie id
+        this.movies[index] = movie; //update the movie at the given index
       })
-      .catch(this.handleError);
+      .catch(this.handleError); //throws an error of any type if there is any
   }
 
-  //DELETE MOVIE
+  //DELETE MOVIE - DELETE REQUEST (DELETE)
   public deleteMovie(id: string): Observable<string> {
-    let options = this.getOptionsObj();
+    let headers = new Headers({ 'Content-Type': 'application/json' }); // set content type to JSON
+    let options = new RequestOptions({ headers: headers }); // create a request option
 
-    return this.http.delete(this.url + "/" + id, options)
-      .map((res: Response) => {
-        let index = this.find(id);
-        this.movies.splice(index, 1);
+    return this.http.delete(this.url + "/" + id, options) //getting the movie id
+      .map((res: Response) => { //map the http.delete response object to movies - The response data are in json string form.
+        let index = this.find(id); //call the method find and find the movie id
+        this.movies.splice(index, 1); //remove the single movie from the array of movies
       })
-      .catch(this.handleError);
+      .catch(this.handleError); //throws an error of any type if there is any
   }
 
-  //FIND MOVIE WITH SPECIFIC ID
+  //FIND ID OF A MOVIE
   private find(id: string): number {
-    for(let i=0; i < this.movies.length; i++) {
+    for(let i=0; i < this.movies.length; i++) { //iterate thru the movies array
       if (this.movies[i]._id === id) {
         return i;
       }
@@ -79,19 +85,16 @@ export class MovieService {
     return -1;
   }
 
-  //ERROR MESSAGE
+  //ERROR HANDLING
   private handleError(error: Response | any) {
+    console.log(error);
     return Observable.throw("some error message");
   }
 
-  //HEADERS
-  private getOptionsObj(): RequestOptions {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    return new RequestOptions({ headers: headers });
-  }
-
+  //COPY MOVIE OBJECT
   private copyMovieObject(movieToCopy: Movie): Movie {
-    let movie = Object.assign({}, movieToCopy);
+    let movie = Object.assign({}, movieToCopy); //copy the value - target object is the first parameter and is also used as the return value.
     return movie;
   }
+
 }

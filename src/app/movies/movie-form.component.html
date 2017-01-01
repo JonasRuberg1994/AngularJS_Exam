@@ -18,27 +18,29 @@
     <div class="row">
 
       <!-- onSubmit will trigger the button of type submit -->
-      <!-- we have a model for the form inside - directive binding of formgroup, setting that equal to form -->
-      <form class="" (ngSubmit)="onSubmit()" #movieForm="ngForm">
+      <!-- template variable - #movieForm initailizied with value ngForm -->
+      <form (ngSubmit)="onSubmit()" #movieForm="ngForm">
 
-        <!-- Title -->
+        <!-------------------------- TITLE STARTS ----------------------->
         <div class="col-md-6">
           <div class="form-group">
 
+            <!-- [ngModel] 2-way-data-binding - binding our form to the movie entity model - flowing values from input box to the movie entity and back again (name attribute required) -->
+            <!-- template variable #title - uses the title variable to get input elements value - gave it the value ngModel -->
             <!-- ngModel - access properties and also checks for events at the same time -->
-            <!-- label and textbox -->
-            <label for="title">Title</label>
-            <input type="text" class="form-control"
-                   name="title"
-                   id="title"
-                   placeholder="Title"
-                   required
-                   #title="ngModel"
-                   [(ngModel)]="selectedMovie.title"
-            >
 
-            <!-- validation -->
+            <!-- LABEL AND TEXTBOX -->
+            <label for="title">Title</label>
+           <input type="text" class="form-control" id="title" placeholder="Title"
+                  required
+                  #title="ngModel"
+                  [(ngModel)]="selectedMovie.title" name="title"
+           >
+
+           <!-- VALIDATION -->
+            <!-- dirty - value has changed / touched - has been visited -->
             <div *ngIf="title.errors && (title.dirty || title.touched)" class="alert alert-danger">
+              <!-- show error message if the title isnt filled out correct -->
               <div [hidden]="!title.errors.required">
                 Title is required
               </div>
@@ -47,27 +49,25 @@
 
           </div> <!-- form group ends -->
         </div> <!-- col ends -->
+        <!-------------------------- TITLE ENDS ----------------------->
 
-        <!-- Year -->
+        <!-------------------------- YEARH STARTS----------------------->
         <div class="col-md-6">
 
           <div class="form-group">
 
-            <!-- label and textbox -->
+            <!-- LABEL AND TEXTBOX -->
             <label for="year">Year</label>
-            <input type="text" class="form-control"
-                   name="year"
-                   id="year"
-                   placeholder="Year"
-                   minlength="4"
-                   maxlength="4"
+            <input type="text" class="form-control" id="year" placeholder="Year" minlength="4" maxlength="4"
                    required
                    #year="ngModel"
-                   [(ngModel)]="selectedMovie.year"
+                   [(ngModel)]="selectedMovie.year" name="year"
             >
 
-            <!-- validation -->
+            <!-- VALIDATION -->
+            <!-- dirty - value has changed / touched - has been visited -->
             <div *ngIf="year.errors && (year.dirty || year.touched)" class="alert alert-danger">
+              <!-- show error message if the year isnt filled out correct -->
               <div [hidden]="!year.errors.required">
                 Year must contain 4 characters
               </div>
@@ -75,25 +75,25 @@
           </div> <!-- form group ends -->
 
         </div> <!-- col ends -->
+        <!-------------------------- YEARH ENDS ----------------------->
 
-        <!-- Director -->
+        <!-------------------------- DIRECTOR STARTS ----------------------->
         <div class="col-md-6">
 
           <div class="form-group">
 
-            <!-- label and textbox -->
+            <!-- LABEL AND TEXTBOX -->
             <label for="director">Director</label>
-            <input type="text" class="form-control"
-                   name="director"
-                   id="director"
-                   placeholder="Director"
+            <input type="text" class="form-control" id="director" placeholder="Director"
                    required
                    #director="ngModel"
-                   [(ngModel)]="selectedMovie.director"
+                   [(ngModel)]="selectedMovie.director" name="director"
             >
 
-            <!-- validation -->
+            <!-- VALIDATION -->
+            <!-- dirty - value has changed / touched - has been visited -->
             <div *ngIf="director.errors && (director.dirty || director.touched)" class="alert alert-danger">
+              <!-- show error message if the director isnt filled out correct -->
               <div [hidden]="!director.errors.required">
                 Director is required
               </div>
@@ -101,20 +101,18 @@
 
           </div> <!-- form group ends -->
         </div> <!-- col ends -->
+        <!-------------------------- DIRECTOR ENDS ----------------------->
 
-        <!-- Genre -->
+        <!-------------------------- GENRE STARTS ----------------------->
         <div class="col-md-6">
 
-          <!-- label and selectlist -->
+          <!-- LABEL AND SELECTLIST -->
           <div class="form-group">
             <label for="genre">Genre</label>
-            <select class="form-control"
-                    name="genre"
-                    id="genre"
-                    placeholder="Genre"
+            <select class="form-control" id="genre" placeholder="Genre"
                     required
                     #genre="ngModel"
-                    [(ngModel)]="selectedMovie.genre"
+                    [(ngModel)]="selectedMovie.genre" name="genre"
             >
               <option value="Action">Action</option>
               <option value="Science Fiction">Science Fiction</option>
@@ -122,8 +120,10 @@
               <option value="Drama">Drama</option>
             </select>
 
-            <!-- validation -->
+            <!-- VALIDATION -->
+            <!-- dirty - value has changed / touched - has been visited -->
             <div *ngIf="genre.errors && (genre.dirty || genre.touched)" class="alert alert-danger">
+              <!-- show error message if the genre isnt filled out correct -->
               <div [hidden]="!genre.errors.required">
                 U must pick a genre from the list
               </div>
@@ -131,18 +131,18 @@
 
           </div> <!-- form group ends -->
         </div> <!-- col ends -->
+        <!-------------------------- GENRE ENDS STARTS ----------------------->
 
-        <!-- Buttons -->
+        <!-------------------------- BUTTONS ----------------------->
         <div class="col-md-12">
           <button type="button" class="btn btn-secondary" routerLink="/movies">Back</button>
           <button type="submit" class="btn btn-primary" [disabled]="!movieForm.form.valid">Save movie</button>
           <button type="button" class="btn btn-danger" (click)="deleteMovie()">Delete movie</button>
         </div> <!-- col ends -->
+        <!-------------------------- BUTTONS ----------------------->
 
       </form> <!-- form ends -->
 
-
     </div> <!-- row ends -->
-
   </div> <!-- container ends -->
 </div> <!-- content-all ends -->
